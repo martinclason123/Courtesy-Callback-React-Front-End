@@ -10,19 +10,6 @@ class SearchResults extends React.Component {
   render() {
     return (
       <div className="results">
-        <div className="result-container">
-          <div className="data__record--field--header--fulfilled">
-            Callback Number
-          </div>
-          <div className="data__record--field--header--fulfilled">Status</div>
-          <div className="data__record--field--header--fulfilled">Agent</div>
-          <div className="data__record--field--header--fulfilled">
-            Time Requested
-          </div>
-          <div className="data__record--field--header--fulfilled">
-            Time Fulfilled
-          </div>
-        </div>
         <div className="data__record--header">
           <div className="data__record--field--header--fulfilled">
             Callback Number
@@ -38,11 +25,9 @@ class SearchResults extends React.Component {
         </div>
         {this.props.results.map((call) => (
           <div className="data__record">
-            <div className="data__record--field--fulfilled">
-              {call.callbackNumber}
-            </div>
+            <div className="data__record--field--fulfilled">6161234567</div>
             <div className="data__record--field--fulfilled">{call.status}</div>
-            <div className="data__record--field--fulfilled">{call.agent}</div>
+            <div className="data__record--field--fulfilled">"John Doe"</div>
             <div className="data__record--field--fulfilled">
               {call.formattedDate}
             </div>
