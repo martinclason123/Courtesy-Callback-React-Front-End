@@ -2,6 +2,7 @@ import React from "react";
 import FulfilledCallbacks from "./FulfilledCallbacks";
 import WaitingCalls from "./WaitingCalls";
 import Widgets from "./Widgets";
+import ProgressBar from "./ProgressBar";
 
 class LiveData extends React.Component {
   constructor(props) {
@@ -81,10 +82,30 @@ class LiveData extends React.Component {
       return (
         <div>
           <Widgets
-            totalRequests={this.state.totalRequests}
-            fulfilledRequests={this.state.fulfilled.length}
-            unfulfilledRequests={this.state.unfulfilled.length}
-            averageElapsed={this.state.averageElapsed}
+            widgets={[
+              {
+                data: this.state.totalRequests,
+                title: "Total Callback Requests",
+              },
+              {
+                data: this.state.averageElapsed,
+                title: "Average Callback Wait",
+              },
+              {
+                data: this.state.fulfilled.length,
+                title: "Total Fulfilled Requests",
+                progressBar: (
+                  <ProgressBar
+                    totalRequests={this.state.totalRequests}
+                    fulfilledRequests={this.state.fulfilled.length}
+                  />
+                ),
+              },
+              {
+                data: this.state.unfulfilledRequests,
+                title: "Total Unfulfilled Requests",
+              },
+            ]}
           />
           <div className="live">
             <WaitingCalls props={this.state.unfulfilled} />

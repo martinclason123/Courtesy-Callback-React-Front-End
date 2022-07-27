@@ -1,38 +1,42 @@
 import React from "react";
+import Widget from "./Widget";
+import ProgressBar from "./ProgressBar";
 
 const Widgets = (props) => {
-  let percentage =
-    Math.floor(
-      (props.fulfilledRequests / props.totalRequests) * 100
-    ).toString() + "%";
-
   return (
     <div className="widgets">
-      <div className="widgets__widget">
-        <div className="widget__title">Total Callback Requests</div>
-        <div className="widget__data">{props.totalRequests}</div>
-      </div>
-      <div className="widgets__widget">
-        <div className="widget__title">Average Callback Wait</div>
-        <div className="widget__data">{props.averageElapsed}</div>
-      </div>
-      <div className="widgets__widget">
-        <div className="widget__title">Total Fulfilled Requests</div>
-        <div className="widget__data">{props.fulfilledRequests}</div>
-        <div className="widget__progress">
-          <div className="widget__data--bar">
-            <div
-              className="widget__data--percentage"
-              style={{ width: percentage }}
-            ></div>
-          </div>
-        </div>
-      </div>
-      <div className="widgets__widget">
-        <div className="widget__title">Total Unfulfilled Requests</div>
-        <div className="widget__data">{props.unfulfilledRequests}</div>
-      </div>
+      {props.widgets.map((widget) => {
+        return (
+          <Widget
+            data={widget.data}
+            title={widget.title}
+            progressBar={widget.progressBar}
+          />
+        );
+      })}
     </div>
+    /*
+    <div className="widgets">
+      
+      <Widget data={props.totalRequests} title={"Total Callback Requests"} />
+      <Widget data={props.averageElapsed} title={"Average Callback Wait"} />
+      <Widget
+        data={props.fulfilledRequests}
+        title={"Total Fulfilled Requests"}
+        progressBar={
+          <ProgressBar
+            fulfilledRequests={props.fulfilledRequests}
+            totalRequests={props.totalRequests}
+          />
+        }
+      />
+
+      <Widget
+        data={props.unfulfilledRequests}
+        title={"Total Unfulfilled Requests"}
+      />
+    </div>
+    */
   );
 };
 export default Widgets;
