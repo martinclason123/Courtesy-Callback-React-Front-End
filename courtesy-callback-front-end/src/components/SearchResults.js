@@ -25,9 +25,11 @@ class SearchResults extends React.Component {
         </div>
         {this.props.results.map((call) => (
           <div className="data__record">
-            <div className="data__record--field--fulfilled">6161234567</div>
+            <div className="data__record--field--fulfilled">
+              {call.callbackNumber}
+            </div>
             <div className="data__record--field--fulfilled">{call.status}</div>
-            <div className="data__record--field--fulfilled">"John Doe"</div>
+            <div className="data__record--field--fulfilled">{call.agent}</div>
             <div className="data__record--field--fulfilled">
               {call.formattedDate}
             </div>
