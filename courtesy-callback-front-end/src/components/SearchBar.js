@@ -1,5 +1,6 @@
 import React from "react";
 import SearchResults from "./SearchResults";
+import Widgets from "./Widgets";
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
@@ -10,8 +11,23 @@ class SearchBar extends React.Component {
       endDate: "",
       phoneNumber: "",
       queryResult: [],
+      averageElapsed: null,
     };
   }
+  getAverageElapsed = (array) => {
+    if (array.length === 0) {
+      return "00:00:00";
+    }
+    let totalTime = 0;
+    for (let i = 0; i < array.length; i++) {
+      let startTime = new Date(array[i].date).getTime() / 1000;
+      let endTime = new Date(array[i].fulfilledAt).getTime() / 1000;
+      let SECONDS = Math.round(endTime - startTime);
+      totalTime += SECONDS;
+    }
+    let average = Math.round(totalTime / array.length);
+    return new Date(average * 1000).toISOString().substr(11, 8);
+  };
   submit() {
     if (!this.state.startDate || !this.state.endDate) {
       alert("Start Date and End Date are mandatory");
@@ -25,6 +41,7 @@ class SearchBar extends React.Component {
             this.setState({
               isLoaded: true,
               queryResult: result,
+              averageElapsed: this.getAverageElapsed(result),
             });
           },
           // Note: it's important to handle errors here
@@ -41,7 +58,7 @@ class SearchBar extends React.Component {
   }
   render() {
     return (
-      <div class="container">
+      <div className="container">
         <div className="searchbar">
           <label class="searchbar__label" for="start-date">
             Start Date
@@ -86,6 +103,15 @@ class SearchBar extends React.Component {
             Search
           </button>
         </div>
+        <Widgets
+          widgets={[
+            { data: this.state.queryResult.length, title: "Total calls " },
+            {
+              data: this.state.averageElapsed,
+              title: "Average Callback Wait",
+            },
+          ]}
+        />
         {this.state.isLoaded ? (
           <SearchResults results={this.state.queryResult} />
         ) : null}
