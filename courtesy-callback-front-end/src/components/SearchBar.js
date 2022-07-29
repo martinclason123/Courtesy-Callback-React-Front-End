@@ -1,6 +1,7 @@
 import React from "react";
 import SearchResults from "./SearchResults";
 import Widgets from "./Widgets";
+import Pagination from "./Pagination";
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
@@ -12,6 +13,7 @@ class SearchBar extends React.Component {
       phoneNumber: "",
       queryResult: [],
       averageElapsed: null,
+      displayData: [],
     };
   }
   getAverageElapsed = (array) => {
@@ -20,10 +22,12 @@ class SearchBar extends React.Component {
     }
     let totalTime = 0;
     for (let i = 0; i < array.length; i++) {
-      let startTime = new Date(array[i].date).getTime() / 1000;
-      let endTime = new Date(array[i].fulfilledAt).getTime() / 1000;
-      let SECONDS = Math.round(endTime - startTime);
-      totalTime += SECONDS;
+      if (array[i].fulfilledAt) {
+        let startTime = new Date(array[i].date).getTime() / 1000;
+        let endTime = new Date(array[i].fulfilledAt).getTime() / 1000;
+        let SECONDS = Math.round(endTime - startTime);
+        totalTime += SECONDS;
+      }
     }
     let average = Math.round(totalTime / array.length);
     return new Date(average * 1000).toISOString().substr(11, 8);
@@ -38,10 +42,22 @@ class SearchBar extends React.Component {
         .then((res) => res.json())
         .then(
           (result) => {
+            let displayData = [];
+            if (result.length != 0) {
+              for (let i = 0; i < 49; i++) {
+                if (i < result.length) {
+                  if (result[i].status || result[i].status === "fulfilled") {
+                    displayData.push(result[i]);
+                  }
+                }
+                console.log(displayData);
+              }
+            }
             this.setState({
               isLoaded: true,
               queryResult: result,
               averageElapsed: this.getAverageElapsed(result),
+              displayData: displayData,
             });
           },
           // Note: it's important to handle errors here
@@ -56,6 +72,22 @@ class SearchBar extends React.Component {
         );
     }
   }
+  paginateData = (start, stop) => {
+    console.log("Start: " + start);
+    console.log("Stop: " + stop);
+    let displayData = [];
+
+    for (let i = start; i < stop; i++) {
+      if (stop > this.state.queryResult) {
+        console.log("ruh roh");
+      } else {
+        displayData.push(this.state.queryResult[i]);
+      }
+    }
+    this.setState({
+      displayData: displayData,
+    });
+  };
   render() {
     return (
       <div className="container">
@@ -113,8 +145,12 @@ class SearchBar extends React.Component {
           ]}
         />
         {this.state.isLoaded ? (
-          <SearchResults results={this.state.queryResult} />
+          <SearchResults results={this.state.displayData} />
         ) : null}
+        <Pagination
+          data={this.state.queryResult}
+          paginateData={this.paginateData}
+        />
       </div>
     );
   }

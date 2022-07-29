@@ -304,3 +304,10 @@ a:visited {
   align-items: center;
   overflow: auto;
 }
+.pagination {
+  width: 90vw;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

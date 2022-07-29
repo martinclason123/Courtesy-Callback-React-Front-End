@@ -15,28 +15,6 @@ const Widgets = (props) => {
         );
       })}
     </div>
-    /*
-    <div className="widgets">
-      
-      <Widget data={props.totalRequests} title={"Total Callback Requests"} />
-      <Widget data={props.averageElapsed} title={"Average Callback Wait"} />
-      <Widget
-        data={props.fulfilledRequests}
-        title={"Total Fulfilled Requests"}
-        progressBar={
-          <ProgressBar
-            fulfilledRequests={props.fulfilledRequests}
-            totalRequests={props.totalRequests}
-          />
-        }
-      />
-
-      <Widget
-        data={props.unfulfilledRequests}
-        title={"Total Unfulfilled Requests"}
-      />
-    </div>
-    */
   );
 };
 export default Widgets;

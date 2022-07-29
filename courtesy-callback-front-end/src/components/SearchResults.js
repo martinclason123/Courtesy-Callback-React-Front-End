@@ -8,6 +8,9 @@ class SearchResults extends React.Component {
     };
   }
   render() {
+    if (this.props.results.length < 1) {
+      return <div className="results">No Results</div>;
+    }
     return (
       <div className="results">
         <div className="data__record--header">
